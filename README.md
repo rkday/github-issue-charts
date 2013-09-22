@@ -6,15 +6,13 @@ A Clojure webapp for displaying charts of github issues over time.
 
 You must have Leiningen installed, and a Github OAuth token available.
 
-```
-git clone git@github.com:rkday/github-issue-charts.git
-cd github-issue-charts
-GITHUB_TOKEN=<token> lein ring server
-```
+    git clone git@github.com:rkday/github-issue-charts.git
+    cd github-issue-charts
+    GITHUB_TOKEN=<token> lein ring server
 
-Then browse to http://localhost:3000/<user>/<repo>/graph to see a chart of new, closed and total issues over time for that repository.
+Then browse to `http://localhost:3000/<user>/<repo>/graph` to see a chart of new, closed and total issues over time for that repository.
 
-You can also use /<user>/graph, which shows the sum of all issues for that user's repositories, or /<user>/<repo>/csv or /<user>/csv for the data in CSV format.
+You can also use `/<user>/graph`, which shows the sum of all issues for that user's repositories, or `/<user>/<repo>/csv` or `/<user>/csv` for the data in CSV format.
 
 ## License
 
