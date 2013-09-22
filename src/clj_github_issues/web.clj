@@ -1,7 +1,7 @@
 (ns clj-github-issues.web
-  (:require [ compojure.core :refer :all]
+  (:require [compojure.core :refer :all]
             [compojure.route :as route]
-            [ clj-github-issues.core :as core]
+            [clj-github-issues.core :as core]
             [clojure.java.io :as io]))
 
 (defroutes handler

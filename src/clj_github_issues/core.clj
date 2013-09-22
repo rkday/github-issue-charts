@@ -6,6 +6,7 @@
             [tentacles.issues :as ghi]
             [tentacles.repos :as ghr]
             [environ.core :refer [env]]
+            [clojure.core.memoize :refer [ttl]]
             ))
 
 (def auth (env :github-credentials))
@@ -23,21 +24,27 @@ returns potential-date untouched."
         potential-date))))
 
 (defn issues-for-repo [user repo state]
-  (let [data (ghi/issues user repo {:state state :oauth_token oauth :all-pages 1})
+  ; Cache the Github issue data for an hour (3,600,000 ms)
+  (let [data (ghi/issues user repo
+                              {:state state
+                               :oauth_token oauth
+                               :all-pages 1})
         is-valid (:created_at (second data))]
     (if is-valid
       (map #(update-values convert-potential-date %1) data)
       [])))
 
+(def cached-issues-for-repo (ttl issues-for-repo :ttl/threshold 3600000))
+
 (defn all-repos-for-user [user state]
   (let [data (ghr/user-repos user {:oauth_token oauth :all-pages 1})
         repo-names (remove nil? (map :name data))]
-    (flatten (pmap #(issues-for-repo user %1 state)
+    (flatten (pmap #(cached-issues-for-repo user %1 state)
                    repo-names))))
 
 (defn get-github-data-in-state [user repo state]
   (if repo
-    (issues-for-repo user repo state)
+    (cached-issues-for-repo user repo state)
     (all-repos-for-user user state)))
 
 (defn get-issue-data [user repo]

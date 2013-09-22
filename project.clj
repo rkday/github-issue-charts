@@ -8,7 +8,8 @@
                  [tentacles "0.2.5"]
                  [clojure-csv/clojure-csv "2.0.1"]
                  [compojure "1.1.5"]
-                 [environ "0.4.0"]]
+                 [environ "0.4.0"]
+                 [org.clojure/core.memoize "0.5.6"]]
   :plugins [[quickie "0.2.1"]
             [lein-ring "0.8.7"]]
   :ring {:handler clj-github-issues.web/handler})
